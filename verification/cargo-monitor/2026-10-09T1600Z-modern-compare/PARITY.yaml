@@ -1,0 +1,19 @@
+slice_id: cargo-monitor
+run_id: 2026-10-09T1600Z-modern-compare
+mode: COMPARE
+target: modern
+goldens_read_only: true
+record_attempted: false
+features:
+  - feature_id: cargo-monitor-001
+    compare: 1/1 MATCH
+    parity: BLOCKED
+    code: GOLDENS_PENDING_HUMAN_APPROVE
+    note: "Every pinned case matches. PARITY=GREEN is withheld because the goldens and the pack bind are overnight-provisional."
+rollup:
+  parity: BLOCKED
+  code: GOLDENS_PENDING_HUMAN_APPROVE
+negative_control:
+  description: "Modern started with -Duser.timezone=America/New_York on port 8082."
+  result: "cargo-monitor: 1 of 1 MATCH (the JSON has no dates)"
+  purpose: "Shows that the harness reports drift. Not committed as evidence files."

@@ -292,7 +292,7 @@ behaviours:
     parity: UNVERIFIED
     legacy_green: true
     parity_green: false
-    notes: "Maps location XXXXX to Unknown. Modern: GET /cargo-tracker/rest/cargo in modern/. Overnight provisional bind and pack BIND. Goldens wait for human approval."
+    notes: "Maps location XXXXX to Unknown. Modern: GET /cargo-tracker/rest/cargo in modern/. Overnight provisional bind and pack BIND. Goldens wait for human approval. COMPARE 2026-10-09T1600Z: all pinned cases MATCH; GREEN withheld."
   - behaviour_id: cargo-monitor-002
     surface_id: ui-admin-cargo-lists
     name: "Filter admin cargo lists"
@@ -313,11 +313,11 @@ behaviours:
     traceability: tests/characterization/public-track/TRACEABILITY.yaml
     pack_id: cargotracker-springboot3-strangler
     pack_version: 1
-    conversion_prs: []
+    conversion_prs: ["https://github.com/DeftEye/cargotracker-experiment/pull/4"]
     parity: UNVERIFIED
     legacy_green: true
     parity_green: false
-    notes: "Loads handling history for one id. Modern: /cargo-tracker/public/track.xhtml in modern/. Map panel and autocomplete list are not in scope. Overnight provisional bind and pack BIND. Goldens wait for human approval."
+    notes: "Loads handling history for one id. Modern: /cargo-tracker/public/track.xhtml in modern/. Map panel and autocomplete list are not in scope. Overnight provisional bind and pack BIND. Goldens wait for human approval. COMPARE 2026-10-09T1600Z: all pinned cases MATCH; GREEN withheld."
   - behaviour_id: handling-report-001
     surface_id: rest-handling-reports
     name: "Submit a handling report by REST"
@@ -408,6 +408,6 @@ behaviours:
     legacy_green: false
     parity_green: false
     notes: "Needs SME. No sender was found in this repository."
-last_updated: "2026-10-09T15:55:00Z"
+last_updated: "2026-10-09T16:10:00Z"
 updated_by: overnight-conductor
 notes: "estate_scan: partial. Overnight provisional bind on cargo-monitor and public-track only. All provisional decisions need human confirmation. completeness: incomplete."

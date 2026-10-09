@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Cargo Tracker - legacy and modern side by side</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --line:#e3e6ea; --fg:#1d2330; --muted:#677084; --legacy:#8a5a00; --modern:#0b6b3a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 -apple-system, "Segoe UI", Arial, sans-serif; background:var(--bg); color:var(--fg); }
+  header { padding:16px 24px; border-bottom:1px solid var(--line); background:var(--card); display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0; }
+  header .note { color:var(--muted); }
+  .banner { margin:12px 24px 0; padding:8px 12px; border:1px solid #f0c36d; background:#fff8e6; border-radius:6px; }
+  nav { margin:12px 24px; display:flex; gap:8px; }
+  nav button { border:1px solid var(--line); background:var(--card); padding:6px 12px; border-radius:6px; cursor:pointer; font:inherit; }
+  nav button.active { border-color:var(--fg); font-weight:600; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:0 24px 16px; }
+  .pane { background:var(--card); border:1px solid var(--line); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; }
+  .pane h2 { margin:0; font-size:14px; padding:10px 12px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; }
+  .pane h2 .tag { font-weight:600; }
+  .legacy .tag { color:var(--legacy); }
+  .modern .tag { color:var(--modern); }
+  .pane h2 .stack { color:var(--muted); font-weight:400; }
+  iframe { border:0; width:100%; height:520px; background:#fff; }
+  section.parity { margin:0 24px 24px; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 16px; }
+  section.parity h2 { font-size:15px; margin:0 0 8px; }
+  table { border-collapse:collapse; width:100%; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:500; }
+  .MATCH { color:var(--modern); font-weight:600; }
+  .MISMATCH { color:#b00020; font-weight:600; }
+  code { font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cargo Tracker: legacy and modern side by side</h1>
+  <span class="note">Pack cargotracker-springboot3-strangler@1. Slices cargo-monitor and public-track.</span>
+</header>
+<div class="banner">OVERNIGHT_PROVISIONAL: goldens and the pack bind wait for human approval. COMPARE results are shown. PARITY=GREEN is not claimed.</div>
+
+<nav>
+  <button data-view="track" class="active">Track a cargo (public-track-001)</button>
+  <button data-view="rest">JSON cargo list (cargo-monitor-001)</button>
+</nav>
+
+<div class="grid">
+  <div class="pane legacy">
+    <h2><span class="tag">Legacy</span><span class="stack">Java EE 7, JSF 2.2 + PrimeFaces, Payara 5, port 8080</span></h2>
+    <iframe id="legacyFrame" title="legacy"></iframe>
+  </div>
+  <div class="pane modern">
+    <h2><span class="tag">Modern</span><span class="stack">Java 21, Spring Boot 3.3, Thymeleaf, port 8081</span></h2>
+    <iframe id="modernFrame" title="modern"></iframe>
+  </div>
+</div>
+
+<section class="parity">
+  <h2>COMPARE: modern output against legacy goldens (read-only)</h2>
+  <table>
+    <thead><tr><th>Case</th><th>Input</th><th>Result</th><th>Golden sha256</th></tr></thead>
+    <tbody id="parityRows"><tr><td colspan="4">Loading results...</td></tr></tbody>
+  </table>
+</section>
+
+<script>
+  const host = location.hostname || "localhost";
+  const urls = {
+    track: { legacy: `http://${host}:8080/cargo-tracker/public/track.xhtml`, modern: `http://${host}:8081/cargo-tracker/public/track.xhtml` },
+    rest:  { legacy: `http://${host}:8080/cargo-tracker/rest/cargo`,        modern: `http://${host}:8081/cargo-tracker/rest/cargo` },
+  };
+  function show(view) {
+    document.getElementById("legacyFrame").src = urls[view].legacy;
+    document.getElementById("modernFrame").src = urls[view].modern;
+    document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+  }
+  document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.view)));
+  show("track");
+
+  const run = "2026-10-09T1600Z-modern-compare";
+  const inputs = { "cargo-monitor-001-C001": "GET /rest/cargo" };
+  Promise.all(["cargo-monitor", "public-track"].map(slice =>
+    Promise.all([
+      fetch(`/verification/${slice}/${run}/evidence/results.json`).then(r => r.json()),
+      fetch(`/tests/characterization/${slice}/cases.json`).then(r => r.json()),
+    ])
+  )).then(pairs => {
+    const rows = [];
+    for (const [results, cases] of pairs) {
+      for (const c of cases.cases) if (c.tracking_id_input !== undefined) inputs[c.case_id] = JSON.stringify(c.tracking_id_input);
+      for (const r of results.cases) {
+        rows.push(`<tr><td><code>${r.case_id}</code></td><td>${inputs[r.case_id] || ""}</td>` +
+                  `<td class="${r.status}">${r.status}</td><td><code>${r.golden_sha256.slice(0, 12)}</code></td></tr>`);
+      }
+    }
+    document.getElementById("parityRows").innerHTML = rows.join("");
+  }).catch(() => {
+    document.getElementById("parityRows").innerHTML = '<tr><td colspan="4">Serve this page from the repository root to load results.</td></tr>';
+  });
+</script>
+</body>
+</html>
