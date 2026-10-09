@@ -1,0 +1,10 @@
+{
+  "golden": "tests/characterization/public-track/cases/public-track-001/C007.approved.json",
+  "differences": [
+    "$.events: length expected 4, actual 0",
+    "$.history_header: expected True, actual False",
+    "$.input_marked_error: expected True, actual False",
+    "$.paragraphs: length expected 3, actual 0",
+    "$.result_present: expected True, actual False"
+  ]
+}

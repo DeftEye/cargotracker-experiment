@@ -1,0 +1,21 @@
+{
+  "run_id": "2026-10-09T1615Z-legacy-record-c007",
+  "slice_id": "public-track",
+  "mode": "RECORD",
+  "target": "legacy",
+  "base_url": "http://localhost:8080/cargo-tracker",
+  "scrub_profile": "ws-collapse-v1",
+  "goldens_read_only": false,
+  "started_at": "2026-10-09T15:02:19.277640+00:00",
+  "cases": [
+    {
+      "case_id": "public-track-001-C007",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C007.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1615Z-legacy-record-c007/actuals/public-track-001-C007.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "f458bc553cb858e68fec6270100abe9e29bd3a1515170abd24bd163e5857e088"
+    }
+  ]
+}

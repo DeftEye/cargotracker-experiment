@@ -1,0 +1,12 @@
+{
+  "http_status": 200,
+  "result_present": true,
+  "paragraphs": [
+    "Cargo DEF789 is currently Not received",
+    "Estimated time of arrival in Melbourne: ?"
+  ],
+  "history_header": false,
+  "events": [],
+  "shows_not_found_text": false,
+  "shows_next_expected_activity": false
+}

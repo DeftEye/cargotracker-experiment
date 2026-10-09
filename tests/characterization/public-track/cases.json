@@ -48,6 +48,15 @@
       "path": "/public/track.xhtml",
       "tracking_id_input": "  ABC123  ",
       "spec": "testgen/public-track/scenarios/public-track-001/CASE-006.md"
+    },
+    {
+      "case_id": "public-track-001-C007",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_sequence": ["JKL567", ""],
+      "observe_input_error": true,
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-007.md"
     }
   ]
 }

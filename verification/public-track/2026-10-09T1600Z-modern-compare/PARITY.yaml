@@ -4,6 +4,7 @@ mode: COMPARE
 target: modern
 goldens_read_only: true
 record_attempted: false
+superseded_by: 2026-10-09T1620Z-modern-compare
 features:
   - feature_id: public-track-001
     compare: 6/6 MATCH

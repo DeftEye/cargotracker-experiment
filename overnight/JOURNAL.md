@@ -126,3 +126,6 @@ All times are UTC on 2026-10-09.
 | 16:00 | Verification | COMPARE modern against legacy goldens, read-only. 7 of 7 MATCH. Goldens unchanged (hash check). Verdict BLOCKED: GOLDENS_PENDING_HUMAN_APPROVE. | verification/ |
 | 16:02 | Negative control | Modern with TZ=America/New_York: 4 of 6 track cases MISMATCH. Harness reports drift. | - |
 | 16:10 | Demo + brief | Side-by-side page. Morning brief rewritten; Phase A brief kept below it. | overnight/demo/, overnight/MORNING_BRIEF.md |
+| 16:15 | Gap from recording | The side-by-side recording showed legacy keeping the previous result after an unknown id in the browser. Cause: forceSelection clears the input, the empty post fails the required check, and the view-scoped bean keeps the old cargo. New case public-track-001-C007 (two posts on the same page). Harness RECORD now refuses to rewrite existing goldens. | testgen/public-track/, tests/characterization/public-track/ |
+| 16:17 | RECORD C007 | Legacy RECORD of C007 only. REPLAY of all cases: 8 of 8 green. | tests/characterization/ |
+| 16:20 | COMPARE again | public-track 6 of 7 MATCH. C007 FAIL: modern shows no result after an empty post. Verdict FAIL, human decision. Run 1600Z for public-track is superseded. | verification/public-track/2026-10-09T1620Z-modern-compare/ |

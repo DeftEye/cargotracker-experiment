@@ -1,0 +1,10 @@
+{
+  "http_status": 200,
+  "result_present": false,
+  "paragraphs": [],
+  "history_header": false,
+  "events": [],
+  "shows_not_found_text": false,
+  "shows_next_expected_activity": false,
+  "input_marked_error": false
+}
