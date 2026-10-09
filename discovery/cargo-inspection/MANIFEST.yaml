@@ -1,0 +1,86 @@
+slice_id: cargo-inspection
+seed: "inspect cargo after a handling event"
+seed_entrypoints:
+  - "CargoHandledConsumer.onMessage"
+  - "DefaultCargoInspectionService.inspectCargo"
+  - "RealtimeCargoTrackingService"
+out_of_scope_hints:
+  - "storing the handling event"
+  - "booking writes"
+  - "public track by id"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: cargo-inspection-001
+    name: "Inspect a cargo after a handled message"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The consumer derives delivery progress, stores the cargo, and may publish misdirected or delivered messages."
+    entrypoints:
+      - kind: other
+        locator: "CargoHandledConsumer.onMessage"
+        evidence:
+          - "src/main/java/net/java/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java:35"
+    dependencies:
+      - "CargoInspectionService"
+      - "CargoRepository"
+      - "HandlingEventRepository"
+      - "ApplicationEvents"
+    open_questions:
+      - "Which rules does deriveDeliveryProgress use?"
+  - id: cargo-inspection-002
+    name: "Log a misdirected cargo id"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The misdirected consumer logs the tracking id and does not change state."
+    entrypoints:
+      - kind: other
+        locator: "MisdirectedCargoConsumer.onMessage"
+        evidence:
+          - "src/main/java/net/java/cargotracker/infrastructure/messaging/jms/MisdirectedCargoConsumer.java:22"
+    dependencies:
+      - "MisdirectedCargoQueue"
+    open_questions:
+      - "Is a log-only consumer in scope?"
+  - id: cargo-inspection-003
+    name: "Log a delivered cargo id"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The delivered consumer logs the tracking id and does not change state."
+    entrypoints:
+      - kind: other
+        locator: "DeliveredCargoConsumer.onMessage"
+        evidence:
+          - "src/main/java/net/java/cargotracker/infrastructure/messaging/jms/DeliveredCargoConsumer.java:22"
+    dependencies:
+      - "DeliveredCargoQueue"
+    open_questions:
+      - "Is a log-only consumer in scope?"
+  - id: cargo-inspection-004
+    name: "Push inspection JSON to tracking sockets"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The /tracking socket sends cargo status JSON after CargoInspected."
+    entrypoints:
+      - kind: other
+        locator: "WebSocket /tracking"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/socket/RealtimeCargoTrackingService.java:27"
+    dependencies:
+      - "CargoInspected"
+    open_questions:
+      - "Is the realtime socket in the pathfinder?"
+  - id: cargo-inspection-005
+    name: "Log a rejected registration attempt"
+    status: candidate
+    confidence: needs-SME
+    summary: "A consumer logs rejected attempts. This pass found no sender in the repository."
+    entrypoints:
+      - kind: other
+        locator: "RejectedRegistrationAttemptsConsumer.onMessage"
+        evidence:
+          - "src/main/java/net/java/cargotracker/infrastructure/messaging/jms/RejectedRegistrationAttemptsConsumer.java:23"
+    dependencies:
+      - "RejectedRegistrationAttemptsQueue"
+    open_questions:
+      - "Which component sends this queue?"

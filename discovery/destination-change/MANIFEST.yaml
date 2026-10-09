@@ -1,0 +1,33 @@
+slice_id: destination-change
+seed: "change the destination of a booked cargo"
+seed_entrypoints:
+  - "ChangeDestination.changeDestination"
+  - "CargoAdmin.changeDestination"
+out_of_scope_hints:
+  - "booking a new cargo"
+  - "itinerary assignment"
+  - "handling events"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: destination-change-001
+    name: "Change the destination of a booked cargo"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The service replaces the destination and keeps the origin and the arrival deadline."
+    entrypoints:
+      - kind: screen
+        locator: "ChangeDestination.changeDestination"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/ChangeDestination.java:80"
+      - kind: screen
+        locator: "CargoAdmin.changeDestination"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/CargoAdmin.java:127"
+    dependencies:
+      - "BookingServiceFacade"
+      - "DefaultBookingService"
+      - "LocationRepository"
+      - "CargoRepository"
+    open_questions:
+      - "Does specifyNewRoute clear the itinerary?"

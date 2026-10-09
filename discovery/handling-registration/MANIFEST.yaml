@@ -1,0 +1,29 @@
+slice_id: handling-registration
+seed: "store a handling event from the registration queue"
+seed_entrypoints:
+  - "HandlingEventRegistrationAttemptConsumer.onMessage"
+  - "DefaultHandlingEventService.registerHandlingEvent"
+out_of_scope_hints:
+  - "REST and mobile submit"
+  - "file ingest"
+  - "cargo inspection after the handled message"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: handling-registration-001
+    name: "Store a handling event from the registration queue"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The consumer stores a handling event and publishes the tracking id on CargoHandledQueue."
+    entrypoints:
+      - kind: other
+        locator: "HandlingEventRegistrationAttemptConsumer.onMessage"
+        evidence:
+          - "src/main/java/net/java/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:31"
+    dependencies:
+      - "HandlingEventService"
+      - "HandlingEventFactory"
+      - "HandlingEventRepository"
+      - "ApplicationEvents"
+    open_questions:
+      - "Which attempts does the factory reject?"

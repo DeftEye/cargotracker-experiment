@@ -1,0 +1,68 @@
+slice_id: cargo-booking
+seed: "book a new cargo"
+seed_entrypoints:
+  - "BookingBackingBean.register"
+  - "Registration.register"
+  - "CargoAdmin.register"
+  - "BookingServiceFacade.bookNewCargo"
+out_of_scope_hints:
+  - "route search"
+  - "itinerary assignment"
+  - "destination change"
+  - "tracking"
+  - "handling events"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: cargo-booking-001
+    name: "Book a new cargo in the booking flow"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The booking flow stores a cargo when the journey is at least one day, then returns the admin dashboard."
+    entrypoints:
+      - kind: screen
+        locator: "BookingBackingBean.register"
+        evidence:
+          - "src/main/java/net/java/cargotracker/domain/model/cargo/BookingBackingBean.java:129"
+      - kind: other
+        locator: "JSF flow booking"
+        evidence:
+          - "src/main/webapp/booking/booking-flow.xml:7"
+          - "src/main/webapp/WEB-INF/templates/common/admin.xhtml:31"
+    dependencies:
+      - "BookingServiceFacade"
+      - "DefaultBookingService"
+      - "CargoRepository"
+      - "LocationRepository"
+    open_questions:
+      - "Where does the user see the new tracking id?"
+  - id: cargo-booking-002
+    name: "Book a new cargo from the admin bean"
+    status: candidate
+    confidence: needs-SME
+    summary: "CargoAdmin.register stores a cargo and does not check that origin and destination differ. No Facelet reference was found."
+    entrypoints:
+      - kind: screen
+        locator: "CargoAdmin.register"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/CargoAdmin.java:106"
+    dependencies:
+      - "BookingServiceFacade"
+      - "DefaultBookingService"
+    open_questions:
+      - "Is this bean referenced by a live screen?"
+  - id: cargo-booking-003
+    name: "Book a new cargo from Registration.java"
+    status: candidate
+    confidence: needs-SME
+    summary: "Registration.register rejects an equal origin and destination and redirects to show.xhtml. No Facelet reference was found."
+    entrypoints:
+      - kind: screen
+        locator: "Registration.register"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/Registration.java:73"
+    dependencies:
+      - "BookingServiceFacade"
+      - "DefaultBookingService"
+    open_questions:
+      - "Is this bean a leftover writer?"

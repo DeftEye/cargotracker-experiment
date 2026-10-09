@@ -1,0 +1,28 @@
+slice_id: graph-shortest-path
+seed: "shortest path query"
+seed_entrypoints:
+  - "GraphTraversalService.findShortestPath"
+  - "GET /rest/graph-traversal/shortest-path"
+out_of_scope_hints:
+  - "booking a cargo"
+  - "assigning an itinerary"
+  - "handling events"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: graph-shortest-path-001
+    name: "Return route candidates for an origin and a destination"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The pathfinder HTTP method returns 3 to 5 random paths and ignores the deadline parameter."
+    entrypoints:
+      - kind: route
+        locator: "GET /rest/graph-traversal/shortest-path"
+        evidence:
+          - "src/main/java/net/java/pathfinder/api/GraphTraversalService.java:24"
+    dependencies:
+      - "GraphDao"
+      - "RestConfiguration"
+    open_questions:
+      - "Is random output the contract?"
+      - "Where is GraphDao implemented?"
