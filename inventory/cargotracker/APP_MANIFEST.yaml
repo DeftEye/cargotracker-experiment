@@ -29,7 +29,8 @@ counts:
   behaviours_known: 19
   behaviours_by_status:
     candidate: 16
-    documented: 2
+    documented: 1
+    converted: 1
     deferred: 1
   unscanned_hints: 5
   legacy_green: 2
@@ -281,13 +282,18 @@ behaviours:
   - behaviour_id: cargo-monitor-001
     surface_id: rest-cargo-monitor
     name: "List all cargo as a JSON array"
-    status: documented
-    impl_in_modern: none
+    status: converted
+    impl_in_modern: full
     slice_id: cargo-monitor
     discovery_card: discovery/cargo-monitor/features/cargo-monitor-001.md
+    traceability: tests/characterization/cargo-monitor/TRACEABILITY.yaml
+    pack_id: cargotracker-springboot3-strangler
+    pack_version: 1
+    conversion_prs: []
+    parity: UNVERIFIED
     legacy_green: true
     parity_green: false
-    notes: "Maps location XXXXX to Unknown. Overnight provisional bind. Legacy REPLAY_GREEN; goldens wait for human approval."
+    notes: "Maps location XXXXX to Unknown. Modern: GET /cargo-tracker/rest/cargo in modern/. Overnight provisional bind and pack BIND. Goldens wait for human approval."
   - behaviour_id: cargo-monitor-002
     surface_id: ui-admin-cargo-lists
     name: "Filter admin cargo lists"
@@ -398,6 +404,6 @@ behaviours:
     legacy_green: false
     parity_green: false
     notes: "Needs SME. No sender was found in this repository."
-last_updated: "2026-10-09T15:30:00Z"
+last_updated: "2026-10-09T15:45:00Z"
 updated_by: overnight-conductor
 notes: "estate_scan: partial. Overnight provisional bind on cargo-monitor and public-track only. All provisional decisions need human confirmation. completeness: incomplete."
