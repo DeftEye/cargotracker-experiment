@@ -29,8 +29,7 @@ counts:
   behaviours_known: 19
   behaviours_by_status:
     candidate: 16
-    documented: 1
-    converted: 1
+    converted: 2
     deferred: 1
   unscanned_hints: 5
   legacy_green: 2
@@ -289,7 +288,7 @@ behaviours:
     traceability: tests/characterization/cargo-monitor/TRACEABILITY.yaml
     pack_id: cargotracker-springboot3-strangler
     pack_version: 1
-    conversion_prs: []
+    conversion_prs: ["https://github.com/DeftEye/cargotracker-experiment/pull/3"]
     parity: UNVERIFIED
     legacy_green: true
     parity_green: false
@@ -307,13 +306,18 @@ behaviours:
   - behaviour_id: public-track-001
     surface_id: ui-public-track
     name: "Track one cargo by tracking id"
-    status: documented
-    impl_in_modern: none
+    status: converted
+    impl_in_modern: full
     slice_id: public-track
     discovery_card: discovery/public-track/features/public-track-001.md
+    traceability: tests/characterization/public-track/TRACEABILITY.yaml
+    pack_id: cargotracker-springboot3-strangler
+    pack_version: 1
+    conversion_prs: []
+    parity: UNVERIFIED
     legacy_green: true
     parity_green: false
-    notes: "Loads handling history for one id. Overnight provisional bind. Legacy REPLAY_GREEN; goldens wait for human approval."
+    notes: "Loads handling history for one id. Modern: /cargo-tracker/public/track.xhtml in modern/. Map panel and autocomplete list are not in scope. Overnight provisional bind and pack BIND. Goldens wait for human approval."
   - behaviour_id: handling-report-001
     surface_id: rest-handling-reports
     name: "Submit a handling report by REST"
@@ -404,6 +408,6 @@ behaviours:
     legacy_green: false
     parity_green: false
     notes: "Needs SME. No sender was found in this repository."
-last_updated: "2026-10-09T15:45:00Z"
+last_updated: "2026-10-09T15:55:00Z"
 updated_by: overnight-conductor
 notes: "estate_scan: partial. Overnight provisional bind on cargo-monitor and public-track only. All provisional decisions need human confirmation. completeness: incomplete."

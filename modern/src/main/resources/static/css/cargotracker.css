@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    color: #222;
+}
+
+.decorationPublic {
+    height: 48px;
+    color: white;
+    background: linear-gradient(90deg, #403B4A 10%, #E7E9BB 90%);
+    display: flex;
+    align-items: center;
+    padding-left: 8%;
+}
+
+.decorationPublic .brand {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.shadowme {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.titleText {
+    font-size: 20px;
+    font-weight: 100;
+}
+
+#body {
+    width: 66%;
+    margin: 0 auto;
+    padding-top: 16px;
+    line-height: 1.6;
+}
+
+#trackingForm input[type=text] {
+    padding: 4px 6px;
+    margin: 0 6px;
+    border: 1px solid #a8a8a8;
+    border-radius: 3px;
+}
+
+#trackingForm button {
+    padding: 4px 12px;
+    border: 1px solid #e78f08;
+    border-radius: 3px;
+    background: linear-gradient(#fdf5ce, #f6a828);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 16px 0;
+}

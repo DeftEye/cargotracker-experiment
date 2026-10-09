@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Track Cargo</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/cargotracker.css}"/>
+</head>
+<body>
+<header class="decorationPublic">
+    <a th:href="@{/}" class="brand shadowme">
+        <img th:src="@{/images/CTlogobadge128.png}" height="30" alt=""/>
+        <span class="titleText">Cargo Tracker - Powered by Spring Boot 3</span>
+    </a>
+</header>
+<main id="body">
+    <form id="trackingForm" method="post" th:action="@{/public/track.xhtml}">
+        <input type="hidden" name="trackingForm" value="trackingForm"/>
+        <label for="trackingId">Tracking ID</label>
+        <input id="trackingId" name="trackingForm:trackingId_input" type="text"
+               th:value="${trackingId}" required="required" autocomplete="off"/>
+        <button type="submit" name="trackingForm:track">Track!</button>
+    </form>
+    <br/>
+    <div id="result" th:if="${cargo != null}">
+        <p>Cargo <strong th:text="${cargo.trackingId}"></strong> is currently <strong th:text="${cargo.statusText}"></strong></p>
+        <p>Estimated time of arrival in <strong th:text="${cargo.destination}"></strong>: <span th:text="${cargo.eta}"></span></p>
+        <p th:if="${cargo.misdirected}"><i class="fa fa-exclamation-triangle" style="color: #9b2332"></i> Cargo is misdirected.</p>
+        <th:block th:if="${!cargo.events.isEmpty()}">
+            <strong>Handling History</strong><br/>
+            <th:block th:each="event : ${cargo.events}">
+                &nbsp;&nbsp;<i th:if="${event.expected}" class="fa fa-check" style="color: green"></i><i th:unless="${event.expected}" class="fa fa-flag" style="color: #9b2332"></i>&nbsp;<span th:text="${event.description}"></span><br/>
+            </th:block>
+        </th:block>
+    </div>
+    <hr/>
+    <a th:href="@{/}"><i class="fa fa-arrow-left fa-lg" style="color: #999999;"></i></a>
+</main>
+</body>
+</html>
