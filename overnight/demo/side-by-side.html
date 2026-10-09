@@ -77,9 +77,9 @@
   document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.view)));
   show("track");
 
-  const run = "2026-10-09T1600Z-modern-compare";
+  const latestRuns = { "cargo-monitor": "2026-10-09T1600Z-modern-compare", "public-track": "2026-10-09T1620Z-modern-compare" };
   const inputs = { "cargo-monitor-001-C001": "GET /rest/cargo" };
-  Promise.all(["cargo-monitor", "public-track"].map(slice =>
+  Promise.all(Object.entries(latestRuns).map(([slice, run]) =>
     Promise.all([
       fetch(`/verification/${slice}/${run}/evidence/results.json`).then(r => r.json()),
       fetch(`/tests/characterization/${slice}/cases.json`).then(r => r.json()),
@@ -87,10 +87,14 @@
   )).then(pairs => {
     const rows = [];
     for (const [results, cases] of pairs) {
-      for (const c of cases.cases) if (c.tracking_id_input !== undefined) inputs[c.case_id] = JSON.stringify(c.tracking_id_input);
+      for (const c of cases.cases) {
+        if (c.tracking_id_sequence) inputs[c.case_id] = c.tracking_id_sequence.map(v => JSON.stringify(v)).join(" then ") + " (same page)";
+        else if (c.tracking_id_input !== undefined) inputs[c.case_id] = JSON.stringify(c.tracking_id_input);
+      }
       for (const r of results.cases) {
+        const detail = r.failure ? `<br/><small>${r.failure.actual_summary}</small>` : "";
         rows.push(`<tr><td><code>${r.case_id}</code></td><td>${inputs[r.case_id] || ""}</td>` +
-                  `<td class="${r.status}">${r.status}</td><td><code>${r.golden_sha256.slice(0, 12)}</code></td></tr>`);
+                  `<td class="${r.status}">${r.status}${detail}</td><td><code>${r.golden_sha256.slice(0, 12)}</code></td></tr>`);
       }
     }
     document.getElementById("parityRows").innerHTML = rows.join("");

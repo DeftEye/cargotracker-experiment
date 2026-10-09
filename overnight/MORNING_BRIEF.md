@@ -4,13 +4,17 @@ OVERNIGHT_PROVISIONAL - binds, matrix, goldens, and pack BIND are provisional. N
 
 ## Result
 
-Two features moved from Java EE 7 to Spring Boot 3. The modern app matches the legacy goldens on 7 of 7 pinned cases.
-PARITY=GREEN is not claimed. A human must approve the goldens and re-BIND the pack first.
+Two features moved from Java EE 7 to Spring Boot 3. The modern app matches 7 of 8 pinned cases. One case fails.
+PARITY=GREEN is not claimed for either feature.
 
 | Feature | Slice | Legacy | Modern | Legacy RECORD/REPLAY | COMPARE | Parity |
 | --- | --- | --- | --- | --- | --- | --- |
 | cargo-monitor-001 | cargo-monitor | JAX-RS GET /rest/cargo | Spring @RestController | 1/1 REPLAY_GREEN | 1/1 MATCH | BLOCKED (goldens pending approval) |
-| public-track-001 | public-track | JSF public/track.xhtml | Spring MVC + Thymeleaf | 6/6 REPLAY_GREEN | 6/6 MATCH | BLOCKED (goldens pending approval) |
+| public-track-001 | public-track | JSF public/track.xhtml | Spring MVC + Thymeleaf | 7/7 REPLAY_GREEN | 6/7 MATCH | FAIL (C007) |
+
+The failing case (public-track-001-C007): in legacy, an unknown id in the browser is cleared by the autocomplete, the empty post fails validation, and the page keeps the previous cargo result with a red input. Modern shows no result. The first COMPARE run missed this because each case used a new page. The side-by-side screen recording showed it, and C007 now pins it on legacy.
+
+Decision for you: copy this legacy behaviour in modern (Conversion follow-up), or accept the difference and write a waiver for C007.
 
 Negative control: modern in time zone America/New_York gives 4 of 6 track mismatches. The harness does report drift.
 
@@ -30,7 +34,8 @@ Negative control: modern in time zone America/New_York gives 4 of 6 track mismat
 | Test matrix | testgen/*/TRACEABILITY.yaml | Change `approved_provisional` to `approved`. |
 | Goldens | tests/characterization/*/TRACEABILITY.yaml | Read the 7 `*.approved.json` files. Change `golden_status` to approved. |
 | Pack BIND | architecture/cargotracker-modern/PACK.yaml | Re-BIND under your name. Remove the banner. |
-| Parity | verification/*/2026-10-09T1600Z-modern-compare/PARITY.yaml | After the three clicks above, re-run COMPARE. Only then may Verification set GREEN. |
+| C007 decision | verification/public-track/2026-10-09T1620Z-modern-compare/PARITY.yaml | Choose: copy the legacy behaviour, or waive C007. |
+| Parity | verification/cargo-monitor/2026-10-09T1600Z-modern-compare/PARITY.yaml, verification/public-track/2026-10-09T1620Z-modern-compare/PARITY.yaml | After the clicks above, re-run COMPARE. Only then may Verification set GREEN. |
 
 ## See it
 
