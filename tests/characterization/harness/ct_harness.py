@@ -138,15 +138,10 @@ def run_rest_get(base_url, case):
     }
 
 
-def run_track_post(base_url, case):
-    jar = http.cookiejar.CookieJar()
-    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
-    url = base_url + case["path"]
-    with opener.open(url, timeout=30) as resp:
-        page = resp.read().decode("utf-8")
+def post_track_form(opener, url, page, tracking_id):
     fields = {
         "trackingForm": "trackingForm",
-        "trackingForm:trackingId_input": case["tracking_id_input"],
+        "trackingForm:trackingId_input": tracking_id,
     }
     for name in ("javax.faces.ViewState", "javax.faces.ClientWindow"):
         m = re.search(r'name="%s"[^>]*value="([^"]*)"' % re.escape(name), page)
@@ -158,10 +153,30 @@ def run_track_post(base_url, case):
     data = urllib.parse.urlencode(fields).encode("utf-8")
     try:
         with opener.open(urllib.request.Request(url, data=data), timeout=30) as resp:
-            status, body = resp.status, resp.read().decode("utf-8")
+            return resp.status, resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
-        status, body = e.code, e.read().decode("utf-8", "replace")
-    return observe_track(body, status)
+        return e.code, e.read().decode("utf-8", "replace")
+
+
+def tracking_input_marked_error(body):
+    m = re.search(r'<input[^>]*name="trackingForm:trackingId_input"[^>]*>', body)
+    return bool(m and "ui-state-error" in m.group(0))
+
+
+def run_track_post(base_url, case):
+    """Posts each input in order on the same page view; observes the last response."""
+    jar = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+    url = base_url + case["path"]
+    with opener.open(url, timeout=30) as resp:
+        page = resp.read().decode("utf-8")
+    status = None
+    for tracking_id in case.get("tracking_id_sequence", [case.get("tracking_id_input")]):
+        status, page = post_track_form(opener, url, page, tracking_id)
+    observed = observe_track(page, status)
+    if case.get("observe_input_error"):
+        observed["input_marked_error"] = tracking_input_marked_error(page)
+    return observed
 
 
 RUNNERS = {"rest_get": run_rest_get, "track_post": run_track_post}
@@ -214,6 +229,7 @@ def main():
     ap.add_argument("--base-url", required=True)
     ap.add_argument("--run-id")
     ap.add_argument("--out-dir", help="COMPARE evidence directory (default verification/<slice>/<run_id>/evidence)")
+    ap.add_argument("--case", action="append", help="Limit the run to these case ids (repeatable)")
     args = ap.parse_args()
 
     if args.mode in ("RECORD", "REPLAY") and args.target != "legacy":
@@ -225,6 +241,12 @@ def main():
     run_id = args.run_id or now.strftime("%Y-%m-%dT%H%MZ") + "-%s-%s" % (args.target, args.mode.lower())
     with open(os.path.join(CHAR_ROOT, args.slice, "cases.json")) as f:
         cases = json.load(f)["cases"]
+    if args.case:
+        cases = [c for c in cases if c["case_id"] in args.case]
+    if args.mode == "RECORD":
+        existing = [c["case_id"] for c in cases if os.path.exists(golden_path(args.slice, c))]
+        if existing:
+            sys.exit("REFUSED: goldens exist for %s. Rebase needs human approval; RECORD new cases with --case." % ", ".join(existing))
 
     if args.mode == "COMPARE":
         run_dir = args.out_dir or os.path.join(ROOT, "verification", args.slice, run_id, "evidence")

@@ -1,0 +1,23 @@
+slice_id: public-track
+run_id: 2026-10-09T1620Z-modern-compare
+mode: COMPARE
+target: modern
+goldens_read_only: true
+record_attempted: false
+supersedes_run: 2026-10-09T1600Z-modern-compare
+features:
+  - feature_id: public-track-001
+    compare: 6/7 MATCH
+    parity: FAIL
+    code: PARITY_FAIL
+    failing_cases:
+      - case_id: public-track-001-C007
+        diff: verification/public-track/2026-10-09T1620Z-modern-compare/evidence/diffs/public-track-001-C007.json
+        legacy: "After a found cargo, an empty post on the same page keeps the previous result and marks the input as an error."
+        modern: "An empty post shows no result and no error mark."
+    human_decision_needed: >
+      Option A: Conversion copies the legacy behaviour (keep the last result on the same page view and mark the input).
+      Option B: Accept an intentional delta. The factory then needs a human waiver record for C007 before any GREEN.
+rollup:
+  parity: FAIL
+  code: PARITY_FAIL

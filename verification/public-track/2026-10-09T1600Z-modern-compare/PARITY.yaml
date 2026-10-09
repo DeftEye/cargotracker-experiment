@@ -1,0 +1,20 @@
+slice_id: public-track
+run_id: 2026-10-09T1600Z-modern-compare
+mode: COMPARE
+target: modern
+goldens_read_only: true
+record_attempted: false
+superseded_by: 2026-10-09T1620Z-modern-compare
+features:
+  - feature_id: public-track-001
+    compare: 6/6 MATCH
+    parity: BLOCKED
+    code: GOLDENS_PENDING_HUMAN_APPROVE
+    note: "Every pinned case matches. PARITY=GREEN is withheld because the goldens and the pack bind are overnight-provisional."
+rollup:
+  parity: BLOCKED
+  code: GOLDENS_PENDING_HUMAN_APPROVE
+negative_control:
+  description: "Modern started with -Duser.timezone=America/New_York on port 8082."
+  result: "public-track: 4 of 6 cases MISMATCH on time zone text (C003 and C005 have no dates)"
+  purpose: "Shows that the harness reports drift. Not committed as evidence files."

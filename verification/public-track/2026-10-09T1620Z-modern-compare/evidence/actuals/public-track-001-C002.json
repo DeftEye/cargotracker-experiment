@@ -1,0 +1,30 @@
+{
+  "http_status": 200,
+  "result_present": true,
+  "paragraphs": [
+    "Cargo JKL567 is currently Onboard voyage 0100S",
+    "Estimated time of arrival in Stockholm: ?",
+    "Cargo is misdirected."
+  ],
+  "history_header": true,
+  "events": [
+    {
+      "icon": "check",
+      "text": "Received in Hangzhou, at 03/01/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Loaded onto voyage 0100S in Hangzhou, at 03/03/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Unloaded off voyage 0100S in New York, at 03/05/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "flag",
+      "text": "Loaded onto voyage 0100S in New York, at 03/06/2016 12:00 AM UTC."
+    }
+  ],
+  "shows_not_found_text": false,
+  "shows_next_expected_activity": false
+}

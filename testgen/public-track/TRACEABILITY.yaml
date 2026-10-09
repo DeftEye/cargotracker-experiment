@@ -49,6 +49,13 @@ cases:
     title: "Tracking id with spaces is trimmed"
     discovery_evidence: ["Track.java:49"]
     spec_path: scenarios/public-track-001/CASE-006.md
+  - <<: *track
+    id: public-track-001-C007
+    title: "Empty post on the same page after a found cargo (stale result)"
+    discovery_evidence: ["track.xhtml:17", "Track.java:30"]
+    spec_path: scenarios/public-track-001/CASE-007.md
+    observables: ["http.status", "result_present", "paragraphs", "history_header", "events", "shows_not_found_text", "shows_next_expected_activity", "input_marked_error"]
+    added_by: "Verification gap, 2026-10-09 (screen recording)"
 
 deferred:
   - feature_id: public-track-001

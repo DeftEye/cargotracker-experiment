@@ -1,0 +1,75 @@
+{
+  "run_id": "2026-10-09T1617Z-legacy-replay",
+  "slice_id": "public-track",
+  "mode": "REPLAY",
+  "target": "legacy",
+  "base_url": "http://localhost:8080/cargo-tracker",
+  "scrub_profile": "ws-collapse-v1",
+  "goldens_read_only": true,
+  "started_at": "2026-10-09T15:02:19.403524+00:00",
+  "cases": [
+    {
+      "case_id": "public-track-001-C001",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C001.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C001.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "6b4a402c675edc7768072e390bdc0c47a4736d2c8a0074bb54acba24f20b33a3"
+    },
+    {
+      "case_id": "public-track-001-C002",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C002.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C002.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "72012c92865759ea86bf0899d6c2d83c4a17829f59dfd339ca056af27d3fcba0"
+    },
+    {
+      "case_id": "public-track-001-C003",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C003.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C003.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "f65d22e883fc79453fbd1ebf8434dbdfb2b90d74d8283cc5d66b93df5116fb8b"
+    },
+    {
+      "case_id": "public-track-001-C004",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C004.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C004.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "d8faf4c19f7d5f341535848bebfc0ed6d72e0038fa932d058494e695a149e183"
+    },
+    {
+      "case_id": "public-track-001-C005",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C005.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C005.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "5808f6a68e5ce8f5a03fd0a52815570c39196ac3f9eaa47da0d1bdc56925a39f"
+    },
+    {
+      "case_id": "public-track-001-C006",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C006.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C006.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "6b4a402c675edc7768072e390bdc0c47a4736d2c8a0074bb54acba24f20b33a3"
+    },
+    {
+      "case_id": "public-track-001-C007",
+      "feature_id": "public-track-001",
+      "golden_path": "tests/characterization/public-track/cases/public-track-001/C007.approved.json",
+      "actual_path": "tests/characterization/public-track/runs/2026-10-09T1617Z-legacy-replay/actuals/public-track-001-C007.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "f458bc553cb858e68fec6270100abe9e29bd3a1515170abd24bd163e5857e088"
+    }
+  ]
+}

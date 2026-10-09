@@ -1,0 +1,19 @@
+slice_id: public-track
+pack: cargotracker-springboot3-strangler@1
+pack_bind: overnight-provisional/Ash Osborne
+feature_ids: [public-track-001]
+conversion_prs: [https://github.com/DeftEye/cargotracker-experiment/pull/4]
+conversion_parity_in: UNVERIFIED
+supersedes_run: 2026-10-09T1600Z-modern-compare
+modern_entry: "http://localhost:8081/cargo-tracker/public/track.xhtml"
+modern_runtime: "Java 21, Spring Boot 3.3.5, -Duser.timezone=UTC, port 8081"
+legacy_baseline_runs: [2026-10-09T1515Z-legacy-record, 2026-10-09T1615Z-legacy-record-c007, 2026-10-09T1617Z-legacy-replay]
+goldens:
+    - {path: tests/characterization/public-track/cases/public-track-001/C001.approved.json, sha256: 6b4a402c675edc7768072e390bdc0c47a4736d2c8a0074bb54acba24f20b33a3}
+    - {path: tests/characterization/public-track/cases/public-track-001/C002.approved.json, sha256: 72012c92865759ea86bf0899d6c2d83c4a17829f59dfd339ca056af27d3fcba0}
+    - {path: tests/characterization/public-track/cases/public-track-001/C003.approved.json, sha256: f65d22e883fc79453fbd1ebf8434dbdfb2b90d74d8283cc5d66b93df5116fb8b}
+    - {path: tests/characterization/public-track/cases/public-track-001/C004.approved.json, sha256: d8faf4c19f7d5f341535848bebfc0ed6d72e0038fa932d058494e695a149e183}
+    - {path: tests/characterization/public-track/cases/public-track-001/C005.approved.json, sha256: 5808f6a68e5ce8f5a03fd0a52815570c39196ac3f9eaa47da0d1bdc56925a39f}
+    - {path: tests/characterization/public-track/cases/public-track-001/C006.approved.json, sha256: 6b4a402c675edc7768072e390bdc0c47a4736d2c8a0074bb54acba24f20b33a3}
+    - {path: tests/characterization/public-track/cases/public-track-001/C007.approved.json, sha256: f458bc553cb858e68fec6270100abe9e29bd3a1515170abd24bd163e5857e088}
+golden_status: overnight_pending_human_approve

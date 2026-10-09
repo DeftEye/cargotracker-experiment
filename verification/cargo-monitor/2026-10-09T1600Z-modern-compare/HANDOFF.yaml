@@ -1,0 +1,12 @@
+slice_id: cargo-monitor
+pack: cargotracker-springboot3-strangler@1
+pack_bind: overnight-provisional/Ash Osborne
+feature_ids: [cargo-monitor-001]
+conversion_prs: [https://github.com/DeftEye/cargotracker-experiment/pull/3]
+conversion_parity_in: UNVERIFIED
+modern_entry: "GET http://localhost:8081/cargo-tracker/rest/cargo"
+modern_runtime: "Java 21, Spring Boot 3.3.5, -Duser.timezone=UTC, port 8081"
+legacy_baseline_runs: [2026-10-09T1515Z-legacy-record, 2026-10-09T1520Z-legacy-replay]
+goldens:
+    - {path: tests/characterization/cargo-monitor/cases/cargo-monitor-001/C001.approved.json, sha256: c38c20484a3d1fa0bc9bf0cec7cc825e0bdf26b6698a029c9bf7d9dabab50e04}
+golden_status: overnight_pending_human_approve
