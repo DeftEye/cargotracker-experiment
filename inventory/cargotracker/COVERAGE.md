@@ -6,14 +6,14 @@
 
 | State | Count | Meaning |
 | --- | ---: | --- |
-| none | 18 | Not started in modern |
+| none | 17 | Not started in modern |
 | partial | 0 | Some modern execution; gaps in notes |
-| full (converted) | 0 | Done in modern; parity may still be UNVERIFIED |
+| full (converted) | 1 | Done in modern; parity may still be UNVERIFIED |
 | deferred / rejected | 1 | Explicitly out |
 
 ### Done in modern (impl_in_modern=full)
 
-- None
+- cargo-monitor-001 — List all cargo as a JSON array
 
 ### Partial in modern
 
@@ -28,7 +28,6 @@
 - itinerary-assignment-001 — itinerary-assignment — legacy_green no
 - itinerary-assignment-002 — itinerary-assignment — legacy_green no
 - destination-change-001 — destination-change — legacy_green no
-- cargo-monitor-001 — cargo-monitor — legacy_green yes
 - public-track-001 — public-track — legacy_green yes
 - handling-report-001 — handling-report — legacy_green no
 - handling-report-002 — handling-report — legacy_green no
@@ -62,8 +61,9 @@
 | Status | Count |
 | --- | ---: |
 | candidate | 16 |
+| converted | 1 |
 | deferred | 1 |
-| documented | 2 |
+| documented | 1 |
 
 ### Characterization flags
 
