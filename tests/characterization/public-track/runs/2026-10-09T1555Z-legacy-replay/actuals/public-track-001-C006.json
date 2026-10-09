@@ -1,0 +1,25 @@
+{
+  "http_status": 200,
+  "result_present": true,
+  "paragraphs": [
+    "Cargo ABC123 is currently In port New York",
+    "Estimated time of arrival in Helsinki: 03/12/2016 12:00 AM UTC"
+  ],
+  "history_header": true,
+  "events": [
+    {
+      "icon": "check",
+      "text": "Received in Hong Kong, at 03/01/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Loaded onto voyage 0100S in Hong Kong, at 03/02/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Unloaded off voyage 0100S in New York, at 03/05/2016 12:00 AM UTC."
+    }
+  ],
+  "shows_not_found_text": false,
+  "shows_next_expected_activity": false
+}

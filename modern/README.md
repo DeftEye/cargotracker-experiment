@@ -13,5 +13,6 @@ java -Duser.timezone=UTC -jar modern/target/cargo-tracker-modern.jar   # http://
 | Feature | Endpoint |
 | --- | --- |
 | cargo-monitor-001 | GET /cargo-tracker/rest/cargo |
+| public-track-001 | GET and POST /cargo-tracker/public/track.xhtml |
 
 Code in this module is a port of javaee/cargotracker, which is under the CDDL. Keep the licence notice with it.
