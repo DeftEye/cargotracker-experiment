@@ -1,0 +1,12 @@
+{
+  "slice_id": "cargo-monitor",
+  "cases": [
+    {
+      "case_id": "cargo-monitor-001-C001",
+      "feature_id": "cargo-monitor-001",
+      "kind": "rest_get",
+      "path": "/rest/cargo",
+      "spec": "testgen/cargo-monitor/scenarios/cargo-monitor-001/CASE-001.md"
+    }
+  ]
+}

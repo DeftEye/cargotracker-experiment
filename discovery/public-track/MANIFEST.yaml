@@ -7,23 +7,30 @@ out_of_scope_hints:
   - "JSON list of all cargo"
   - "realtime WebSocket"
   - "booking writes"
-phase: A
-updated_at: "2026-10-09T09:40:00Z"
+  - "admin/track.xhtml"
+phase: B
+bind_source: overnight_provisional
+bind_record: discovery/public-track/OVERNIGHT_BIND.md
+updated_at: "2026-10-09T15:05:00Z"
 features:
   - id: public-track-001
     name: "Track one cargo by tracking id"
-    status: candidate
+    status: documented
     confidence: observed-in-code
-    summary: "The public page loads one cargo and its handling history, or shows a not-found message."
+    bind_source: overnight_provisional
+    bind_reason: "Public read-only page. RECORD is possible by form post on the running legacy server."
+    card: discovery/public-track/features/public-track-001.md
+    summary: "The public page loads one cargo and its handling history. A missing cargo shows no result block."
     entrypoints:
       - kind: screen
         locator: "Track.onTrackById"
         evidence:
           - "src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java:72"
+          - "src/main/webapp/public/track.xhtml"
     dependencies:
       - "CargoRepository"
       - "HandlingEventRepository"
       - "CargoTrackingViewAdapter"
     open_questions:
-      - "Which adapter fields does the page render?"
-      - "Does admin/track.xhtml call methods that Track does not declare?"
+      - "The page queues a not-found Faces message but the public template has no messages component. Is a silent result the wanted behaviour?"
+      - "The next-activity text sits in an f:facet that does not render. Is this intended?"

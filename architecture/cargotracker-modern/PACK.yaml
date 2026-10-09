@@ -1,0 +1,137 @@
+# OVERNIGHT_PROVISIONAL_BIND - human must re-BIND before production use
+pack_id: cargotracker-springboot3-strangler
+version: 1
+status: BOUND
+migration_id: cargotracker-modern
+slice_ids: [cargo-monitor, public-track]
+
+target_stack:
+  language: java
+  runtime: java21
+  framework: spring-boot-3 (spring-mvc, thymeleaf)
+  data_access: in-memory repositories seeded at startup
+  build: maven
+  min_versions: { java: "21", spring_boot: "3.3" }
+
+style: strangler-facade
+layout:
+  modern_root: modern/
+  naming: "modern/src/main/java/net/java/cargotracker/modern/<area>/ where area is domain | seed | repository | web"
+  context_path: /cargo-tracker
+  port: 8081
+
+boundaries:
+  in_scope:
+    - "cargo-monitor-001: GET /rest/cargo"
+    - "public-track-001: public/track.xhtml read path"
+    - "Delivery derivation rules that feed both features (Delivery, Itinerary, RouteSpecification, HandlingHistory)"
+  stay_legacy:
+    - "booking, routing, itinerary assignment, destination change"
+    - "handling registration (REST, file ingest, JMS consumers)"
+    - "admin screens, realtime WebSocket, graph traversal"
+  anti_corruption: "None. The modern app does not call the legacy app for these features."
+
+api_contract_policy:
+  mode: preserve-wire
+  contract_paths:
+    - "tests/characterization/cargo-monitor/cases/**/*.approved.json"
+    - "tests/characterization/public-track/cases/**/*.approved.json"
+  sourced_vs_inferred: sourced
+  notes: >
+    Same paths under the same context path. Same JSON keys in the same order.
+    The track page accepts the same form field name (trackingForm:trackingId_input) and
+    renders the same observable result block. JSF view state is not part of the contract.
+
+data:
+  strategy: seeded-mirror
+  schema_changes: none
+  migration_tool: null
+  notes: >
+    Legacy uses an embedded Derby database that SampleDataGenerator reloads at each start.
+    No external database exists to share. Modern seeds the same raw inputs (locations, voyages,
+    cargos, itineraries, handling events) at startup and derives delivery with ported rules.
+    Modern must not store pre-computed output values.
+
+authn_authz:
+  mode: keep
+  notes: "Both features are public in legacy. No authentication in modern."
+
+interop:
+  modern_to_legacy: "none for these slices"
+  legacy_to_modern: "none; side-by-side run on separate ports"
+
+mapping_rules:
+  - from: "JAX-RS resource method (@Path, @GET, javax.json builders)"
+    to: "Spring @RestController method; build output with an ordered map so that key order stays the same"
+  - from: "JSF @Named @ViewScoped backing bean + Facelets page"
+    to: "Spring @Controller with GET and POST handlers + Thymeleaf template with the same observable markup"
+  - from: "View adapter class (CargoTrackingViewAdapter)"
+    to: "Plain Java view class with the same text rules and the same date format"
+  - from: "JPA entity / embeddable domain class"
+    to: "Plain Java domain class with the same rules; no JPA annotations"
+  - from: "JPA repository (EntityManager queries)"
+    to: "In-memory repository that keeps insertion order"
+  - from: "@Singleton @Startup sample data loader"
+    to: "Spring component that seeds the same raw inputs at startup"
+  - from: "commons-lang3 Validate"
+    to: "java.util.Objects / IllegalArgumentException with the same checks"
+
+non_goals:
+  - "No UI restyle beyond what is needed to serve the page without JSF"
+  - "No fix of legacy quirks (silent not-found, hidden next-activity text, sample MISROUTED cargo)"
+  - "No map panel"
+  - "No persistence layer for these slices"
+  - "No microservice split"
+
+quality_gates:
+  characterization: REPLAY_GREEN
+  verification: COMPARE_ALLOWED_GREEN_WITHHELD
+  commands:
+    - "mvn -f modern/pom.xml -B test"
+    - "python3 tests/characterization/harness/ct_harness.py --slice <slice> --mode REPLAY --target legacy --base-url http://localhost:8080/cargo-tracker"
+  review_skills: ["migration-correctness"]
+  provisional_pins:
+    - "Goldens are overnight_pending_human_approve. Verification may not set PARITY=GREEN until a human approves them."
+
+forbidden:
+  - "Hard-coded output values (status text, JSON rows) instead of derived values"
+  - "Edits to *.approved.json"
+  - "New dependencies beyond spring-boot-starter-web, spring-boot-starter-thymeleaf, spring-boot-starter-test"
+  - "Drive-by edits to the legacy tree"
+
+edit_surface:
+  allow:
+    - "modern/**"
+    - "inventory/cargotracker/**"
+    - "verification/**"
+    - "overnight/**"
+  deny:
+    - "src/**"
+    - "pom.xml"
+    - "tests/characterization/**/*.approved.json"
+    - "migration-factory/**"
+
+known_risks:
+  - "Date text depends on the JVM time zone. Both apps run with TZ=UTC for RECORD and COMPARE."
+  - "HandlingHistory distinct-by-equality must match legacy equality (cargo, voyage, completion time, location, type)."
+  - "Itinerary.isExpected uses equals for RECEIVE, UNLOAD, CLAIM and sameIdentityAs for LOAD. Keep both."
+  - "MNO456 is MISROUTED in legacy because of its sample deadline. Keep it."
+  - "CDDL licence notice applies to code ported from javaee/cargotracker."
+
+evidence:
+  discovery_manifest: discovery/public-track/MANIFEST.yaml
+  replay_green_run_ids:
+    - 2026-10-09T1515Z-legacy-record
+    - 2026-10-09T1520Z-legacy-replay
+  behaviour_cards:
+    - discovery/cargo-monitor/features/cargo-monitor-001.md
+    - discovery/public-track/features/public-track-001.md
+  testgen_traceability: testgen/public-track/TRACEABILITY.yaml
+
+bound_by: overnight-provisional/Ash Osborne
+bound_at: "2026-10-09T15:25:00Z"
+change_policy: "BOUND immutable; new version + SUPERSEDE + re-bind to change"
+reference_skeleton: null
+first_conversion_batch:
+  - cargo-monitor-001
+  - public-track-001

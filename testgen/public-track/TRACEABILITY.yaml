@@ -1,0 +1,59 @@
+slice_id: public-track
+source_discovery: discovery/public-track/MANIFEST.yaml
+phase: B
+updated_at: "2026-10-09T15:10:00Z"
+matrix_approval: approved_provisional   # OVERNIGHT_PROVISIONAL - human must confirm
+batch_card_ids: [public-track-001]
+
+case_defaults: &track
+  feature_id: public-track-001
+  status: specified
+  approval: approved_provisional
+  kind: characterization
+  evidence_gate: observed-in-code
+  boundary: "POST /cargo-tracker/public/track.xhtml (trackingForm:trackingId_input)"
+  harness_path: tests/characterization/harness/ct_harness.py
+  assert_mode: TO_BE_RECORDED
+  observables: ["http.status", "result_present", "paragraphs", "history_header", "events", "shows_not_found_text", "shows_next_expected_activity"]
+  scrub: ["whitespace-collapse", "html-entities"]
+  deferred_reasons: []
+
+cases:
+  - <<: *track
+    id: public-track-001-C001
+    title: "Routed cargo in port (ABC123)"
+    discovery_evidence: ["Track.java:72", "CargoTrackingViewAdapter.java:63"]
+    spec_path: scenarios/public-track-001/CASE-001.md
+  - <<: *track
+    id: public-track-001-C002
+    title: "Misdirected cargo on board (JKL567)"
+    discovery_evidence: ["Delivery.java:244", "Itinerary.java:68", "track.xhtml:26"]
+    spec_path: scenarios/public-track-001/CASE-002.md
+  - <<: *track
+    id: public-track-001-C003
+    title: "Not routed, no events (DEF789)"
+    discovery_evidence: ["Delivery.java:209", "track.xhtml:29"]
+    spec_path: scenarios/public-track-001/CASE-003.md
+  - <<: *track
+    id: public-track-001-C004
+    title: "Claimed with customs event (MNO456)"
+    discovery_evidence: ["CargoTrackingViewAdapter.java:211", "Itinerary.java:94"]
+    spec_path: scenarios/public-track-001/CASE-004.md
+  - <<: *track
+    id: public-track-001-C005
+    title: "Unknown tracking id (NOPE99)"
+    discovery_evidence: ["Track.java:81-87", "WEB-INF/templates/common/public.xhtml"]
+    spec_path: scenarios/public-track-001/CASE-005.md
+  - <<: *track
+    id: public-track-001-C006
+    title: "Tracking id with spaces is trimmed"
+    discovery_evidence: ["Track.java:49"]
+    spec_path: scenarios/public-track-001/CASE-006.md
+
+deferred:
+  - feature_id: public-track-001
+    reason: "Google map panel. External API with no key. Not pinned."
+  - feature_id: public-track-001
+    reason: "Empty tracking id. The JSF required validator stops the post before the bean runs. Client widget path. Defer to a UI-level case."
+  - feature_id: public-track-001
+    reason: "Autocomplete list (getTrackingIds). PrimeFaces widget helper, not a page observable."

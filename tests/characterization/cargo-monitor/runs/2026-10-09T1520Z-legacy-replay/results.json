@@ -1,0 +1,21 @@
+{
+  "run_id": "2026-10-09T1520Z-legacy-replay",
+  "slice_id": "cargo-monitor",
+  "mode": "REPLAY",
+  "target": "legacy",
+  "base_url": "http://localhost:8080/cargo-tracker",
+  "scrub_profile": "ws-collapse-v1",
+  "goldens_read_only": true,
+  "started_at": "2026-10-09T14:36:18.637326+00:00",
+  "cases": [
+    {
+      "case_id": "cargo-monitor-001-C001",
+      "feature_id": "cargo-monitor-001",
+      "golden_path": "tests/characterization/cargo-monitor/cases/cargo-monitor-001/C001.approved.json",
+      "actual_path": "tests/characterization/cargo-monitor/runs/2026-10-09T1520Z-legacy-replay/actuals/cargo-monitor-001-C001.json",
+      "status": "REPLAY_GREEN",
+      "failure_class": null,
+      "golden_sha256": "c38c20484a3d1fa0bc9bf0cec7cc825e0bdf26b6698a029c9bf7d9dabab50e04"
+    }
+  ]
+}
