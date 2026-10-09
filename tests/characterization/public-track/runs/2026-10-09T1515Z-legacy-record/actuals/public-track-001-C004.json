@@ -1,0 +1,33 @@
+{
+  "http_status": 200,
+  "result_present": true,
+  "paragraphs": [
+    "Cargo MNO456 is currently Claimed",
+    "Estimated time of arrival in Dallas: ?"
+  ],
+  "history_header": true,
+  "events": [
+    {
+      "icon": "check",
+      "text": "Received in New York, at 10/18/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Loaded onto voyage 0200T in New York, at 10/24/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Unloaded off voyage 0200T in Dallas, at 10/25/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Cleared customs in Dallas, at 10/26/2016 12:00 AM UTC."
+    },
+    {
+      "icon": "check",
+      "text": "Claimed in Dallas, at 10/27/2016 12:00 AM UTC."
+    }
+  ],
+  "shows_not_found_text": false,
+  "shows_next_expected_activity": false
+}

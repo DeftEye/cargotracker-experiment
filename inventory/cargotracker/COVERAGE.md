@@ -6,10 +6,10 @@
 
 | State | Count | Meaning |
 | --- | ---: | --- |
-| none | 19 | Not started in modern |
+| none | 18 | Not started in modern |
 | partial | 0 | Some modern execution; gaps in notes |
 | full (converted) | 0 | Done in modern; parity may still be UNVERIFIED |
-| deferred / rejected | 0 | Explicitly out |
+| deferred / rejected | 1 | Explicitly out |
 
 ### Done in modern (impl_in_modern=full)
 
@@ -28,9 +28,8 @@
 - itinerary-assignment-001 — itinerary-assignment — legacy_green no
 - itinerary-assignment-002 — itinerary-assignment — legacy_green no
 - destination-change-001 — destination-change — legacy_green no
-- cargo-monitor-001 — cargo-monitor — legacy_green no
-- cargo-monitor-002 — cargo-monitor — legacy_green no
-- public-track-001 — public-track — legacy_green no
+- cargo-monitor-001 — cargo-monitor — legacy_green yes
+- public-track-001 — public-track — legacy_green yes
 - handling-report-001 — handling-report — legacy_green no
 - handling-report-002 — handling-report — legacy_green no
 - handling-file-ingest-001 — handling-file-ingest — legacy_green no
@@ -54,19 +53,23 @@
 
 | Status | Count |
 | --- | ---: |
-| candidate | 18 |
+| accepted | 2 |
+| candidate | 15 |
+| deferred | 1 |
 
 ### Behaviour status histogram
 
 | Status | Count |
 | --- | ---: |
-| candidate | 19 |
+| candidate | 16 |
+| deferred | 1 |
+| documented | 2 |
 
 ### Characterization flags
 
 | Flag | Count |
 | --- | ---: |
-| legacy_green | 0 |
+| legacy_green | 2 |
 | parity_green | 0 |
 
 ### Unscanned hints

@@ -1,0 +1,53 @@
+{
+  "slice_id": "public-track",
+  "cases": [
+    {
+      "case_id": "public-track-001-C001",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "ABC123",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-001.md"
+    },
+    {
+      "case_id": "public-track-001-C002",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "JKL567",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-002.md"
+    },
+    {
+      "case_id": "public-track-001-C003",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "DEF789",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-003.md"
+    },
+    {
+      "case_id": "public-track-001-C004",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "MNO456",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-004.md"
+    },
+    {
+      "case_id": "public-track-001-C005",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "NOPE99",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-005.md"
+    },
+    {
+      "case_id": "public-track-001-C006",
+      "feature_id": "public-track-001",
+      "kind": "track_post",
+      "path": "/public/track.xhtml",
+      "tracking_id_input": "  ABC123  ",
+      "spec": "testgen/public-track/scenarios/public-track-001/CASE-006.md"
+    }
+  ]
+}

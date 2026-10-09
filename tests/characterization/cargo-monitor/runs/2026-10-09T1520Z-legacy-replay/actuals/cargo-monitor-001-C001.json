@@ -1,0 +1,80 @@
+{
+  "http_status": 200,
+  "content_type": "application/json",
+  "body": [
+    {
+      "trackingId": "ABC123",
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "transportStatus": "IN_PORT",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "USNYC"
+    },
+    {
+      "trackingId": "JKL567",
+      "routingStatus": "ROUTED",
+      "misdirected": true,
+      "transportStatus": "ONBOARD_CARRIER",
+      "atDestination": false,
+      "origin": "CNHGH",
+      "lastKnownLocation": "USNYC"
+    },
+    {
+      "trackingId": "DEF789",
+      "routingStatus": "NOT_ROUTED",
+      "misdirected": false,
+      "transportStatus": "NOT_RECEIVED",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "Unknown"
+    },
+    {
+      "trackingId": "MNO456",
+      "routingStatus": "MISROUTED",
+      "misdirected": false,
+      "transportStatus": "CLAIMED",
+      "atDestination": false,
+      "origin": "USNYC",
+      "lastKnownLocation": "USDAL"
+    }
+  ],
+  "key_order": [
+    [
+      "trackingId",
+      "routingStatus",
+      "misdirected",
+      "transportStatus",
+      "atDestination",
+      "origin",
+      "lastKnownLocation"
+    ],
+    [
+      "trackingId",
+      "routingStatus",
+      "misdirected",
+      "transportStatus",
+      "atDestination",
+      "origin",
+      "lastKnownLocation"
+    ],
+    [
+      "trackingId",
+      "routingStatus",
+      "misdirected",
+      "transportStatus",
+      "atDestination",
+      "origin",
+      "lastKnownLocation"
+    ],
+    [
+      "trackingId",
+      "routingStatus",
+      "misdirected",
+      "transportStatus",
+      "atDestination",
+      "origin",
+      "lastKnownLocation"
+    ]
+  ]
+}

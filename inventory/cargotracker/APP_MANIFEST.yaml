@@ -23,12 +23,16 @@ unscanned_hints:
 counts:
   surfaces_total: 18
   surfaces_by_status:
-    candidate: 18
+    candidate: 15
+    accepted: 2
+    deferred: 1
   behaviours_known: 19
   behaviours_by_status:
-    candidate: 19
+    candidate: 16
+    documented: 2
+    deferred: 1
   unscanned_hints: 5
-  legacy_green: 0
+  legacy_green: 2
   parity_green: 0
   parity_waived: 0
 surfaces:
@@ -94,27 +98,27 @@ surfaces:
     kind: http_listener
     locator: "GET /rest/cargo"
     repo_path: src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java
-    status: candidate
+    status: accepted
     slice_id: cargo-monitor
-    notes: "JSON list of every cargo."
+    notes: "JSON list of every cargo. Accepted at overnight provisional bind."
     discovery_evidence:
       - src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:26
   - surface_id: ui-admin-cargo-lists
     kind: other
     locator: "ListCargo"
     repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/ListCargo.java
-    status: candidate
+    status: deferred
     slice_id: cargo-monitor
-    notes: "In-memory filters for admin xhtml lists."
+    notes: "In-memory filters for admin xhtml lists. Deferred at overnight provisional bind."
     discovery_evidence:
       - src/main/java/net/java/cargotracker/interfaces/booking/web/ListCargo.java:40
   - surface_id: ui-public-track
     kind: other
     locator: "Track.onTrackById"
     repo_path: src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java
-    status: candidate
+    status: accepted
     slice_id: public-track
-    notes: "Public track page. No single-cargo REST method was found."
+    notes: "Public track page. No single-cargo REST method was found. Accepted at overnight provisional bind."
     discovery_evidence:
       - src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java:72
       - src/main/webapp/public/track.xhtml
@@ -277,33 +281,33 @@ behaviours:
   - behaviour_id: cargo-monitor-001
     surface_id: rest-cargo-monitor
     name: "List all cargo as a JSON array"
-    status: candidate
+    status: documented
     impl_in_modern: none
     slice_id: cargo-monitor
-    discovery_card: null
-    legacy_green: false
+    discovery_card: discovery/cargo-monitor/features/cargo-monitor-001.md
+    legacy_green: true
     parity_green: false
-    notes: "Maps location XXXXX to Unknown."
+    notes: "Maps location XXXXX to Unknown. Overnight provisional bind. Legacy REPLAY_GREEN; goldens wait for human approval."
   - behaviour_id: cargo-monitor-002
     surface_id: ui-admin-cargo-lists
     name: "Filter admin cargo lists"
-    status: candidate
+    status: deferred
     impl_in_modern: none
     slice_id: cargo-monitor
     discovery_card: null
     legacy_green: false
     parity_green: false
-    notes: "SME brief recommends defer. Status stays candidate."
+    notes: "Deferred at overnight provisional bind (admin screen)."
   - behaviour_id: public-track-001
     surface_id: ui-public-track
     name: "Track one cargo by tracking id"
-    status: candidate
+    status: documented
     impl_in_modern: none
     slice_id: public-track
-    discovery_card: null
-    legacy_green: false
+    discovery_card: discovery/public-track/features/public-track-001.md
+    legacy_green: true
     parity_green: false
-    notes: "Loads handling history for one id."
+    notes: "Loads handling history for one id. Overnight provisional bind. Legacy REPLAY_GREEN; goldens wait for human approval."
   - behaviour_id: handling-report-001
     surface_id: rest-handling-reports
     name: "Submit a handling report by REST"
@@ -394,6 +398,6 @@ behaviours:
     legacy_green: false
     parity_green: false
     notes: "Needs SME. No sender was found in this repository."
-last_updated: "2026-10-09T09:40:00Z"
-updated_by: estate-discovery-loop
-notes: "estate_scan: partial. Phase A only. No bind. completeness: incomplete."
+last_updated: "2026-10-09T15:30:00Z"
+updated_by: overnight-conductor
+notes: "estate_scan: partial. Overnight provisional bind on cargo-monitor and public-track only. All provisional decisions need human confirmation. completeness: incomplete."

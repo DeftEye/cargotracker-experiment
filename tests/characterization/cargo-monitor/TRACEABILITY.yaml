@@ -1,0 +1,13 @@
+slice_id: cargo-monitor
+source_testgen: testgen/cargo-monitor/TRACEABILITY.yaml
+updated_at: "2026-10-09T15:20:00Z"
+golden_status: overnight_pending_human_approve   # OVERNIGHT_PROVISIONAL - human must approve goldens
+record_run_id: 2026-10-09T1515Z-legacy-record
+replay_run_ids: [2026-10-09T1515Z-legacy-record, 2026-10-09T1520Z-legacy-replay]
+legacy_runtime: "Payara 5.2022.5, Temurin JDK 11, TZ=UTC, embedded Derby 10.14.2.0"
+
+cases:
+  - case_id: cargo-monitor-001-C001
+    feature_id: cargo-monitor-001
+    status: REPLAY_GREEN
+    golden_path: tests/characterization/cargo-monitor/cases/cargo-monitor-001/C001.approved.json

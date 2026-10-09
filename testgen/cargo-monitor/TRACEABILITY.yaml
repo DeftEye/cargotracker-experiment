@@ -1,0 +1,31 @@
+slice_id: cargo-monitor
+source_discovery: discovery/cargo-monitor/MANIFEST.yaml
+phase: B
+updated_at: "2026-10-09T15:10:00Z"
+matrix_approval: approved_provisional   # OVERNIGHT_PROVISIONAL - human must confirm
+batch_card_ids: [cargo-monitor-001]
+
+cases:
+  - id: cargo-monitor-001-C001
+    feature_id: cargo-monitor-001
+    title: "List all sample cargo as JSON"
+    status: specified
+    approval: approved_provisional
+    kind: characterization
+    evidence_gate: observed-in-code
+    discovery_evidence:
+      - "discovery/cargo-monitor/features/cargo-monitor-001.md"
+      - "src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:26"
+    boundary: "GET /cargo-tracker/rest/cargo"
+    spec_path: scenarios/cargo-monitor-001/CASE-001.md
+    harness_path: tests/characterization/harness/ct_harness.py
+    assert_mode: TO_BE_RECORDED
+    observables: ["http.status", "content_type", "body", "key_order"]
+    scrub: []
+    deferred_reasons: []
+
+deferred:
+  - feature_id: cargo-monitor-002
+    reason: "Feature deferred at overnight bind (admin screen)."
+  - feature_id: cargo-monitor-001
+    reason: "Empty repository case. The sample loader always loads four cargos. No fixture path exists without a code change. Defer."

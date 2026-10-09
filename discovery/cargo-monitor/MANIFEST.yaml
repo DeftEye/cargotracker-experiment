@@ -8,13 +8,18 @@ out_of_scope_hints:
   - "track one cargo by id"
   - "booking writes"
   - "handling events"
-phase: A
-updated_at: "2026-10-09T09:40:00Z"
+phase: B
+bind_source: overnight_provisional
+bind_record: discovery/cargo-monitor/OVERNIGHT_BIND.md
+updated_at: "2026-10-09T15:05:00Z"
 features:
   - id: cargo-monitor-001
     name: "List all cargo as a JSON array"
-    status: candidate
+    status: documented
     confidence: observed-in-code
+    bind_source: overnight_provisional
+    bind_reason: "Callable REST boundary. Read only. RECORD is possible on the running legacy server."
+    card: discovery/cargo-monitor/features/cargo-monitor-001.md
     summary: "GET /rest/cargo returns one JSON object per cargo, and maps location XXXXX to Unknown."
     entrypoints:
       - kind: api
@@ -23,12 +28,14 @@ features:
           - "src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:26"
     dependencies:
       - "CargoRepository"
-    open_questions:
-      - "Does a null last known location throw?"
+      - "Delivery (stored delivery snapshot)"
+    open_questions: []
   - id: cargo-monitor-002
     name: "Filter admin cargo lists"
-    status: candidate
+    status: deferred
     confidence: observed-in-code
+    bind_source: overnight_provisional
+    bind_reason: "Admin JSF screen. The overnight batch holds one feature per slice. Defer to a later wave."
     summary: "The admin bean filters the facade list into routed, not routed, claimed, and routed-unclaimed lists."
     entrypoints:
       - kind: screen
