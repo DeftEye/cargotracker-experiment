@@ -1,0 +1,45 @@
+slice_id: handling-report
+seed: "submit a handling registration attempt"
+seed_entrypoints:
+  - "HandlingReportService.submitReport"
+  - "POST /rest/handling/reports"
+  - "EventBackingBean.handleEventSubmission"
+out_of_scope_hints:
+  - "file ingest"
+  - "JMS consumer that stores the event"
+  - "cargo inspection"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: handling-report-001
+    name: "Submit a handling report by REST"
+    status: candidate
+    confidence: observed-in-code
+    summary: "POST /rest/handling/reports validates the body, parses the time, and publishes an attempt with a one-second time to live."
+    entrypoints:
+      - kind: api
+        locator: "POST /rest/handling/reports"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/handling/rest/HandlingReportService.java:38"
+    dependencies:
+      - "ApplicationEvents"
+      - "JmsApplicationEvents"
+      - "HandlingEventRegistrationAttemptQueue"
+    open_questions:
+      - "Is the one-second time to live intentional?"
+  - id: handling-report-002
+    name: "Submit a handling event from the mobile flow"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The mobile flow publishes an attempt for a routed and unclaimed cargo."
+    entrypoints:
+      - kind: screen
+        locator: "EventBackingBean.handleEventSubmission"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/handling/mobile/EventBackingBean.java:221"
+    dependencies:
+      - "ApplicationEvents"
+      - "BookingServiceFacade"
+      - "VoyageRepository"
+    open_questions:
+      - "Which event types does the form offer?"

@@ -1,0 +1,41 @@
+slice_id: cargo-monitor
+seed: "list cargo status"
+seed_entrypoints:
+  - "CargoMonitoringService.getAllCargo"
+  - "GET /rest/cargo"
+  - "ListCargo"
+out_of_scope_hints:
+  - "track one cargo by id"
+  - "booking writes"
+  - "handling events"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: cargo-monitor-001
+    name: "List all cargo as a JSON array"
+    status: candidate
+    confidence: observed-in-code
+    summary: "GET /rest/cargo returns one JSON object per cargo, and maps location XXXXX to Unknown."
+    entrypoints:
+      - kind: api
+        locator: "GET /rest/cargo"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:26"
+    dependencies:
+      - "CargoRepository"
+    open_questions:
+      - "Does a null last known location throw?"
+  - id: cargo-monitor-002
+    name: "Filter admin cargo lists"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The admin bean filters the facade list into routed, not routed, claimed, and routed-unclaimed lists."
+    entrypoints:
+      - kind: screen
+        locator: "ListCargo"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/ListCargo.java:40"
+    dependencies:
+      - "BookingServiceFacade"
+    open_questions:
+      - "Are the admin list screens in the pathfinder?"

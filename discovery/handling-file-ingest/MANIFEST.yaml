@@ -1,0 +1,32 @@
+slice_id: handling-file-ingest
+seed: "scheduled handling-event file intake"
+seed_entrypoints:
+  - "UploadDirectoryScanner.processFiles"
+  - "EventFilesProcessorJob"
+out_of_scope_hints:
+  - "REST handling report"
+  - "mobile event logger"
+  - "consumer that stores the event"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: handling-file-ingest-001
+    name: "Scan upload files and enqueue handling attempts"
+    status: candidate
+    confidence: observed-in-code
+    summary: "Every two minutes the batch job parses upload lines and publishes handling attempts."
+    entrypoints:
+      - kind: job
+        locator: "UploadDirectoryScanner.processFiles"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/handling/file/UploadDirectoryScanner.java:18"
+      - kind: job
+        locator: "EventFilesProcessorJob"
+        evidence:
+          - "src/main/resources/META-INF/batch-jobs/EventFilesProcessorJob.xml:2"
+    dependencies:
+      - "EventItemReader"
+      - "EventItemWriter"
+      - "ApplicationEvents"
+    open_questions:
+      - "Which class uses failed_directory?"

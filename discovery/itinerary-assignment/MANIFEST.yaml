@@ -1,0 +1,55 @@
+slice_id: itinerary-assignment
+seed: "request routes and assign an itinerary"
+seed_entrypoints:
+  - "ItinerarySelection.load"
+  - "ItinerarySelection.assignItinerary"
+  - "ExternalRoutingService.fetchRoutesForSpecification"
+out_of_scope_hints:
+  - "graph HTTP implementation"
+  - "booking a new cargo"
+  - "destination change"
+  - "handling events"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: itinerary-assignment-001
+    name: "Request possible routes for a tracking id"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The booking service asks the external routing client for paths and drops paths that fail the route specification."
+    entrypoints:
+      - kind: screen
+        locator: "ItinerarySelection.load"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/ItinerarySelection.java:56"
+      - kind: other
+        locator: "BookingServiceFacade.requestPossibleRoutesForCargo"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:23"
+    dependencies:
+      - "DefaultBookingService"
+      - "ExternalRoutingService"
+      - "GraphTraversalUrl"
+    open_questions:
+      - "Which paths fail isSatisfiedBy?"
+  - id: itinerary-assignment-002
+    name: "Assign a selected route to a cargo"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The screen stores the selected itinerary on the cargo."
+    entrypoints:
+      - kind: screen
+        locator: "ItinerarySelection.assignItinerary"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/web/ItinerarySelection.java:62"
+      - kind: other
+        locator: "BookingServiceFacade.assignCargoToRoute"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:19"
+    dependencies:
+      - "DefaultBookingService"
+      - "CargoRepository"
+      - "VoyageRepository"
+      - "LocationRepository"
+    open_questions:
+      - "What happens when the cargo is missing?"

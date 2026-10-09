@@ -1,0 +1,399 @@
+schema_version: 1
+app_id: cargotracker
+repo: "https://github.com/defteye/cargotracker-experiment"
+status: in_progress
+completeness: incomplete
+scanned_seeds:
+  - cargo-booking
+  - graph-shortest-path
+  - itinerary-assignment
+  - destination-change
+  - cargo-monitor
+  - public-track
+  - handling-report
+  - handling-file-ingest
+  - handling-registration
+  - cargo-inspection
+unscanned_hints:
+  - src/main/java/net/java/cargotracker/domain/model/cargo/Delivery.java
+  - src/main/java/net/java/pathfinder/internal
+  - src/weblogic
+  - src/main/resources/META-INF/persistence.xml
+  - src/main/webapp/public/about.xhtml
+counts:
+  surfaces_total: 18
+  surfaces_by_status:
+    candidate: 18
+  behaviours_known: 19
+  behaviours_by_status:
+    candidate: 19
+  unscanned_hints: 5
+  legacy_green: 0
+  parity_green: 0
+  parity_waived: 0
+surfaces:
+  - surface_id: ui-booking-flow
+    kind: flow
+    locator: "JSF flow booking"
+    repo_path: src/main/java/net/java/cargotracker/domain/model/cargo/BookingBackingBean.java
+    status: candidate
+    slice_id: cargo-booking
+    notes: "Admin header Book starts this flow. The bean is bookingBackingBean."
+    discovery_evidence:
+      - src/main/webapp/WEB-INF/templates/common/admin.xhtml:31
+      - src/main/java/net/java/cargotracker/domain/model/cargo/BookingBackingBean.java:129
+      - src/main/webapp/booking/booking-flow.xml:7
+  - surface_id: ui-registration-bean
+    kind: other
+    locator: "Registration.register"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/Registration.java
+    status: candidate
+    slice_id: cargo-booking
+    notes: "No Facelet reference was found in src/main/webapp."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/Registration.java:73
+  - surface_id: ui-cargo-admin
+    kind: other
+    locator: "CargoAdmin.register"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/CargoAdmin.java
+    status: candidate
+    slice_id: cargo-booking
+    notes: "The same bean also calls assign and change destination. No Facelet reference to cargoAdmin was found."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/CargoAdmin.java:106
+  - surface_id: rest-graph-shortest-path
+    kind: http_listener
+    locator: "GET /rest/graph-traversal/shortest-path"
+    repo_path: src/main/java/net/java/pathfinder/api/GraphTraversalService.java
+    status: candidate
+    slice_id: graph-shortest-path
+    notes: "JAX-RS application path is rest."
+    discovery_evidence:
+      - src/main/java/net/java/pathfinder/api/GraphTraversalService.java:24
+      - src/main/java/net/java/cargotracker/application/util/RestConfiguration.java:14
+  - surface_id: ui-itinerary-selection
+    kind: other
+    locator: "ItinerarySelection"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/ItinerarySelection.java
+    status: candidate
+    slice_id: itinerary-assignment
+    notes: "Screen loads route candidates and assigns one."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/ItinerarySelection.java:56
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/ItinerarySelection.java:62
+  - surface_id: ui-change-destination
+    kind: other
+    locator: "ChangeDestination.changeDestination"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/ChangeDestination.java
+    status: candidate
+    slice_id: destination-change
+    notes: "CargoAdmin.changeDestination calls the same facade method."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/ChangeDestination.java:80
+  - surface_id: rest-cargo-monitor
+    kind: http_listener
+    locator: "GET /rest/cargo"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java
+    status: candidate
+    slice_id: cargo-monitor
+    notes: "JSON list of every cargo."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:26
+  - surface_id: ui-admin-cargo-lists
+    kind: other
+    locator: "ListCargo"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/web/ListCargo.java
+    status: candidate
+    slice_id: cargo-monitor
+    notes: "In-memory filters for admin xhtml lists."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/web/ListCargo.java:40
+  - surface_id: ui-public-track
+    kind: other
+    locator: "Track.onTrackById"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java
+    status: candidate
+    slice_id: public-track
+    notes: "Public track page. No single-cargo REST method was found."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java:72
+      - src/main/webapp/public/track.xhtml
+  - surface_id: rest-handling-reports
+    kind: http_listener
+    locator: "POST /rest/handling/reports"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/handling/rest/HandlingReportService.java
+    status: candidate
+    slice_id: handling-report
+    notes: "Publishes an attempt. Does not store the event."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/handling/rest/HandlingReportService.java:38
+  - surface_id: ui-mobile-event-logger
+    kind: flow
+    locator: "eventLogger"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/handling/mobile/EventBackingBean.java
+    status: candidate
+    slice_id: handling-report
+    notes: "JSF flow that publishes an attempt."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/handling/mobile/EventBackingBean.java:32
+      - src/main/webapp/eventLogger/eventLogger-flow.xml
+  - surface_id: scheduler-upload-directory
+    kind: scheduler
+    locator: "UploadDirectoryScanner.processFiles"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/handling/file/UploadDirectoryScanner.java
+    status: candidate
+    slice_id: handling-file-ingest
+    notes: "Timer starts EventFilesProcessorJob."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/handling/file/UploadDirectoryScanner.java:18
+      - src/main/resources/META-INF/batch-jobs/EventFilesProcessorJob.xml:2
+  - surface_id: jms-handling-registration-attempt
+    kind: vm_queue
+    locator: "java:app/jms/HandlingEventRegistrationAttemptQueue"
+    repo_path: src/main/java/net/java/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java
+    status: candidate
+    slice_id: handling-registration
+    notes: "JMS queue. Kind vm_queue is the nearest schema value."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:22
+      - src/main/webapp/WEB-INF/web.xml:75
+  - surface_id: jms-cargo-handled
+    kind: vm_queue
+    locator: "java:app/jms/CargoHandledQueue"
+    repo_path: src/main/java/net/java/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java
+    status: candidate
+    slice_id: cargo-inspection
+    notes: "JMS queue. Kind vm_queue is the nearest schema value."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java:26
+  - surface_id: jms-misdirected-cargo
+    kind: vm_queue
+    locator: "java:app/jms/MisdirectedCargoQueue"
+    repo_path: src/main/java/net/java/cargotracker/infrastructure/messaging/jms/MisdirectedCargoConsumer.java
+    status: candidate
+    slice_id: cargo-inspection
+    notes: "Log-only consumer."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/infrastructure/messaging/jms/MisdirectedCargoConsumer.java:15
+  - surface_id: jms-delivered-cargo
+    kind: vm_queue
+    locator: "java:app/jms/DeliveredCargoQueue"
+    repo_path: src/main/java/net/java/cargotracker/infrastructure/messaging/jms/DeliveredCargoConsumer.java
+    status: candidate
+    slice_id: cargo-inspection
+    notes: "Log-only consumer."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/infrastructure/messaging/jms/DeliveredCargoConsumer.java:15
+  - surface_id: ws-realtime-tracking
+    kind: other
+    locator: "WebSocket /tracking"
+    repo_path: src/main/java/net/java/cargotracker/interfaces/booking/socket/RealtimeCargoTrackingService.java
+    status: candidate
+    slice_id: cargo-inspection
+    notes: "Observes CargoInspected."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/interfaces/booking/socket/RealtimeCargoTrackingService.java:27
+  - surface_id: jms-rejected-registration
+    kind: vm_queue
+    locator: "java:app/jms/RejectedRegistrationAttemptsQueue"
+    repo_path: src/main/java/net/java/cargotracker/infrastructure/messaging/jms/RejectedRegistrationAttemptsConsumer.java
+    status: candidate
+    slice_id: cargo-inspection
+    notes: "Consumer exists. No sender was found in this repository."
+    discovery_evidence:
+      - src/main/java/net/java/cargotracker/infrastructure/messaging/jms/RejectedRegistrationAttemptsConsumer.java:15
+      - src/main/webapp/WEB-INF/web.xml:70
+behaviours:
+  - behaviour_id: cargo-booking-001
+    surface_id: ui-booking-flow
+    name: "Book a new cargo in the booking flow"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-booking
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Wired JSF flow. Requires a journey of at least one day. Returns the dashboard."
+  - behaviour_id: cargo-booking-002
+    surface_id: ui-cargo-admin
+    name: "Book a new cargo from the admin bean"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-booking
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Needs SME. No Facelet reference was found. Does not compare origin and destination."
+  - behaviour_id: cargo-booking-003
+    surface_id: ui-registration-bean
+    name: "Book a new cargo from Registration.java"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-booking
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Needs SME. No Facelet reference was found. Rejects equal origin and destination."
+  - behaviour_id: graph-shortest-path-001
+    surface_id: rest-graph-shortest-path
+    name: "Return route candidates for an origin and a destination"
+    status: candidate
+    impl_in_modern: none
+    slice_id: graph-shortest-path
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Returns random paths. Deadline parameter is unused."
+  - behaviour_id: itinerary-assignment-001
+    surface_id: ui-itinerary-selection
+    name: "Request possible routes for a tracking id"
+    status: candidate
+    impl_in_modern: none
+    slice_id: itinerary-assignment
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Client of GraphTraversalUrl. Phase A candidate."
+  - behaviour_id: itinerary-assignment-002
+    surface_id: ui-itinerary-selection
+    name: "Assign a selected route to a cargo"
+    status: candidate
+    impl_in_modern: none
+    slice_id: itinerary-assignment
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Writes the itinerary. No missing-cargo guard was seen."
+  - behaviour_id: destination-change-001
+    surface_id: ui-change-destination
+    name: "Change the destination of a booked cargo"
+    status: candidate
+    impl_in_modern: none
+    slice_id: destination-change
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Keeps origin and arrival deadline."
+  - behaviour_id: cargo-monitor-001
+    surface_id: rest-cargo-monitor
+    name: "List all cargo as a JSON array"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-monitor
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Maps location XXXXX to Unknown."
+  - behaviour_id: cargo-monitor-002
+    surface_id: ui-admin-cargo-lists
+    name: "Filter admin cargo lists"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-monitor
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "SME brief recommends defer. Status stays candidate."
+  - behaviour_id: public-track-001
+    surface_id: ui-public-track
+    name: "Track one cargo by tracking id"
+    status: candidate
+    impl_in_modern: none
+    slice_id: public-track
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Loads handling history for one id."
+  - behaviour_id: handling-report-001
+    surface_id: rest-handling-reports
+    name: "Submit a handling report by REST"
+    status: candidate
+    impl_in_modern: none
+    slice_id: handling-report
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Publishes an attempt with time to live 1000 ms."
+  - behaviour_id: handling-report-002
+    surface_id: ui-mobile-event-logger
+    name: "Submit a handling event from the mobile flow"
+    status: candidate
+    impl_in_modern: none
+    slice_id: handling-report
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Publishes an attempt. Does not store the event."
+  - behaviour_id: handling-file-ingest-001
+    surface_id: scheduler-upload-directory
+    name: "Scan upload files and enqueue handling attempts"
+    status: candidate
+    impl_in_modern: none
+    slice_id: handling-file-ingest
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Schedule is every two minutes. Comment says fifteen minutes."
+  - behaviour_id: handling-registration-001
+    surface_id: jms-handling-registration-attempt
+    name: "Store a handling event from the registration queue"
+    status: candidate
+    impl_in_modern: none
+    slice_id: handling-registration
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Stores the event and publishes CargoHandledQueue."
+  - behaviour_id: cargo-inspection-001
+    surface_id: jms-cargo-handled
+    name: "Inspect a cargo after a handled message"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-inspection
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Derives delivery progress and stores the cargo."
+  - behaviour_id: cargo-inspection-002
+    surface_id: jms-misdirected-cargo
+    name: "Log a misdirected cargo id"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-inspection
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "SME brief recommends defer. Log only. Status stays candidate."
+  - behaviour_id: cargo-inspection-003
+    surface_id: jms-delivered-cargo
+    name: "Log a delivered cargo id"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-inspection
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "SME brief recommends defer. Log only. Status stays candidate."
+  - behaviour_id: cargo-inspection-004
+    surface_id: ws-realtime-tracking
+    name: "Push inspection JSON to tracking sockets"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-inspection
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "WebSocket /tracking after CargoInspected."
+  - behaviour_id: cargo-inspection-005
+    surface_id: jms-rejected-registration
+    name: "Log a rejected registration attempt"
+    status: candidate
+    impl_in_modern: none
+    slice_id: cargo-inspection
+    discovery_card: null
+    legacy_green: false
+    parity_green: false
+    notes: "Needs SME. No sender was found in this repository."
+last_updated: "2026-10-09T09:40:00Z"
+updated_by: estate-discovery-loop
+notes: "estate_scan: partial. Phase A only. No bind. completeness: incomplete."

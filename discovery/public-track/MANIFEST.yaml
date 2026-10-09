@@ -1,0 +1,29 @@
+slice_id: public-track
+seed: "track one cargo by tracking id"
+seed_entrypoints:
+  - "Track.onTrackById"
+  - "src/main/webapp/public/track.xhtml"
+out_of_scope_hints:
+  - "JSON list of all cargo"
+  - "realtime WebSocket"
+  - "booking writes"
+phase: A
+updated_at: "2026-10-09T09:40:00Z"
+features:
+  - id: public-track-001
+    name: "Track one cargo by tracking id"
+    status: candidate
+    confidence: observed-in-code
+    summary: "The public page loads one cargo and its handling history, or shows a not-found message."
+    entrypoints:
+      - kind: screen
+        locator: "Track.onTrackById"
+        evidence:
+          - "src/main/java/net/java/cargotracker/interfaces/tracking/web/Track.java:72"
+    dependencies:
+      - "CargoRepository"
+      - "HandlingEventRepository"
+      - "CargoTrackingViewAdapter"
+    open_questions:
+      - "Which adapter fields does the page render?"
+      - "Does admin/track.xhtml call methods that Track does not declare?"
