@@ -1,5 +1,23 @@
 # Side-by-side demo
 
+Left is the Java EE 7 app. Right is the Spring Boot 3 app.
+
+Valid id `JKL567`. Both sides show the same status, ETA, misdirection warning, and handling history.
+
+![JKL567 on legacy and modern](jkl567-both-match.webp)
+
+Same page, then an unknown id. Legacy keeps the previous cargo and marks the input red. Modern clears the result. That is case `public-track-001-C007`.
+
+![Unknown id after JKL567](nope99-legacy-keeps-result.webp)
+
+Automated compare of the modern app against the legacy goldens: 7 MATCH, `public-track-001-C007` MISMATCH.
+
+![Compare table](compare-7-match-1-mismatch.webp)
+
+The legacy page also embeds a Google Map. The modern page does not. The compare checks cargo fields, not that widget.
+
+The HTML viewer below only works where both apps are running. The pictures above are the comparison.
+
 Three processes. Paths match the overnight VM; change them for your machine.
 
 ```bash
